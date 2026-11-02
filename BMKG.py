@@ -153,6 +153,25 @@ elif menu == "3. Klasifikasi":
     if st.button("Klasifikasikan"):
         res = model.predict([[f1, f2]])[0]
         st.info(f"Hasil Prediksi Kelas: Kelas {res}")
+# --- TAMBAHKAN KODE GRAFIK KLASIFIKASI DI BAWAH INI ---
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots(figsize=(6, 4))
+
+    # 1. Plot titik-titik data latih berdasarkan kelasnya (0 dan 1)
+    scatter = ax.scatter(X[:, 0], X[:, 1], c=y, cmap="coolwarm", alpha=0.7, edgecolors="k", label="Data Latih")
+
+    # 2. Plot titik posisi fitur baru yang diinput oleh user (tanda bintang kuning besar)
+    ax.scatter([[f1]], [[f2]], color="yellow", marker="*", s=250, edgecolors="black", zorder=5, label=f"Input User (Kelas {res})")
+
+    # 3. Merapikan tampilan grafik
+    ax.set_xlabel("Fitur 1")
+    ax.set_ylabel("Fitur 2")
+    ax.set_title("Sebaran Data & Posisi Klasifikasi")
+    ax.legend()
+
+    # 4. Tampilkan grafik ke halaman web Streamlit
+    st.pyplot(fig)
 
 # ==========================================
 # MENU 4: CLUSTERING
