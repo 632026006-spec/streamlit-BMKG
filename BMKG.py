@@ -128,7 +128,7 @@ elif menu == "2. Regresi Linear":
 # ==========================================
 elif menu == "3. Klasifikasi":
     st.header("🏷️ Model Klasifikasi (Decision Tree)")
-    X, y = make_classification(n_samples=100, n_features=2, random_state=42)
+    X, y = make_classification(n_samples=100, n_features=2, n_informative=2, n_redundant=0, random_state=42)
     model = DecisionTreeClassifier().fit(X, y)
     
     f1 = st.number_input("Fitur 1:", value=0.5)
