@@ -122,6 +122,23 @@ elif menu == "2. Regresi Linear":
     if st.button("Prediksi"):
         res = model.predict([[val]])[0]
         st.success(f"Hasil Prediksi Y: {res:.2f}")
+# --- TAMBAHKAN KODE GRAFIK DI BAWAH INI ---
+        import matplotlib.pyplot as plt
+        
+        fig, ax = plt.subplots(figsize=(6, 4))
+        # 1. Gambar data titik-titik (Data Asli)
+        ax.scatter(X, y, color="blue", alpha=0.6, label="Data Asli")
+        # 2. Gambar garis merah prediksi (Garis Regresi)
+        ax.plot(X, model.predict(X), color="red", linewidth=2, label="Garis Regresi")
+        # 3. Tambahkan tanda titik posisi yang sedang diprediksi oleh user
+        ax.scatter([[val]], [res], color="green", s=150, zorder=5, label="Posisi Prediksi")
+        
+        ax.set_xlabel("Input Fitur X")
+        ax.set_ylabel("Target Y")
+        ax.legend()
+        
+        # 4. Tampilkan grafik ke halaman web Streamlit
+        st.pyplot(fig)
 
 # ==========================================
 # MENU 3: KLASIFIKASI
