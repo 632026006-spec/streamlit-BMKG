@@ -8,17 +8,25 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.cluster import KMeans
 from sklearn.datasets import make_regression, make_classification, make_blobs
 
-# --- KONFIGURASI HALAMAN ---
-st.set_page_config(page_title="Dashboard Sistem Terpadu", page_icon="⚙️", layout="wide")
-
 # --- KONEKSI MONGODB ---
-MONGO_URI = "mongodb://localhost:27017/"
-client = MongoClient(MONGO_URI)
+# Mengambil URL MongoDB Atlas dari pengaturan Secrets Streamlit Cloud secara aman
+try:
+    MONGO_URI = st.secrets["mongodb"]["uri"]
+except Exception:
+    # Cadangan jika Anda menjalankan secara lokal di laptop
+    MONGO_URI = "mongodb://localhost:27017/"
+
+# Menghubungkan ke MongoDB Atlas dengan batas waktu tunggu 5 detik
+client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
+
+# Menghubungkan ke database Anda di MongoDB Atlas
 db = client["dashboard_terpadu_db"]
 
+# Menghubungkan ke tabel-tabel (collections) Anda
 collection_dataset = db["dataset_retrain"]
 collection_comments = db["komentar_publik"]
 collection_cuaca = db["log_cuaca_bmkg"]
+
 
 # --- SIDEBAR NAVIGASI ---
 st.sidebar.title("📌 Menu Navigasi")
